@@ -47,7 +47,8 @@
     overflow-y: auto;
   }
 
-  .nav.open {
+  .nav.open,
+   .nav.active {
     display: flex;
     transform: translateX(0);
     visibility: visible;
@@ -55,7 +56,8 @@
 
   /* Background overlay */
 
-  body:has(.nav.open)::before {
+  body:has(.nav.open)::before,
+   body:has(.nav.active)::before {
     content: "";
     position: fixed;
     inset: 72px 0 0;
