@@ -1,18 +1,40 @@
 (() => {
   const menuButton = document.querySelector('.menu-toggle');
-  const nav = document.querySelector('.nav');
-  if (menuButton && nav) {
-    menuButton.addEventListener('click', () => {
-      const open = nav.classList.toggle('open');
-      menuButton.setAttribute('aria-expanded', String(open));
-      menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
-    });
-    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-      nav.classList.remove('open');
-      menuButton.setAttribute('aria-expanded', 'false');
-      menuButton.setAttribute('aria-label', 'Open navigation');
-    }));
+const nav = document.querySelector('.nav');
+const closeButton = document.querySelector('.nav-close');
+
+if (menuButton && nav) {
+
+  function openMenu() {
+    nav.classList.add('open');
+    menuButton.setAttribute('aria-expanded', 'true');
+    menuButton.setAttribute('aria-label', 'Close navigation');
+    document.body.style.overflow = 'hidden';
   }
+
+  function closeMenu() {
+    nav.classList.remove('open');
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.setAttribute('aria-label', 'Open navigation');
+    document.body.style.overflow = '';
+  }
+
+  menuButton.addEventListener('click', () => {
+    nav.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  if (closeButton) {
+    closeButton.addEventListener('click', closeMenu);
+  }
+
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMenu();
+  });
+}
 
   const year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
